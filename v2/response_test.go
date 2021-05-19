@@ -123,3 +123,12 @@ func TestResponseWriter_Cookie(t *testing.T) {
 	assert.Equal(t, "text/plain; charset=utf8", e.Headers["Content-Type"])
 	assert.Equal(t, []string{"foo=bar"}, e.Cookies)
 }
+
+func TestResponseWriter_WriteHeadersWhenEmpty(t *testing.T) {
+	w := NewResponse()
+	w.Header().Set("Content-Type", "text/xml")
+
+	e := w.End()
+	assert.Equal(t, 200, e.StatusCode)
+	assert.Equal(t, "text/xml", e.Headers["Content-Type"])
+}

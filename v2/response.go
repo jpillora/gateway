@@ -94,6 +94,11 @@ func (w *ResponseWriter) End() events.APIGatewayV2HTTPResponse {
 		w.out.Body = w.buf.String()
 	}
 
+	// ensure headers are written out
+	if !w.wroteHeader {
+		w.WriteHeader(http.StatusOK)
+	}
+
 	// notify end
 	w.closeNotifyCh <- true
 
